@@ -42,7 +42,7 @@ public class CompanyMapsImpl implements Company, Persistable {
 	@Override
 	public void addEmployee(Employee empl) {
 		if (employees.putIfAbsent(empl.getId(), empl) != null) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("employee already exists");
 		}
 		addToIndexMap(employeesDepartment, empl.getDepartment(), empl);
 		if (empl instanceof Manager) {
@@ -62,7 +62,7 @@ public class CompanyMapsImpl implements Company, Persistable {
 	public Employee removeEmployee(long id) {
 		Employee empl = employees.remove(id);
 		if(empl == null) {
-			throw new NoSuchElementException();
+			throw new NoSuchElementException("employee doesn't exist");
 		}
 		removeFromIndexMaps(empl);
 		return empl;
